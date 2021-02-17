@@ -1,3 +1,4 @@
-/target/
-/out/
-/.idea/
+/payara.pdf
+/lib/picocli-codegen*
+/out
+/*.pdf
