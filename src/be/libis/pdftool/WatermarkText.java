@@ -47,6 +47,7 @@ public class WatermarkText implements Runnable {
     @Parameters(description = "Watermark text - each value will be printed on a separate line", arity = "1..*")
     private List<String> text;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
     public void run() {
         validate();

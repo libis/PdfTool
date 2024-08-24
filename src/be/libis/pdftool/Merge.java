@@ -62,6 +62,7 @@ public class Merge implements Runnable {
         }
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void merge(List<File> inputFiles, File target) {
         try {
 

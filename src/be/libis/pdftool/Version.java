@@ -4,10 +4,10 @@ import picocli.CommandLine;
 
 public class Version implements CommandLine.IVersionProvider {
 
-    static final String version = "1.0.beta";
+    static final String version = "1.0";
 
     @Override
-    public String[] getVersion() throws Exception {
+    public String[] getVersion() {
         return new String[] {"PdfTool " + version};
     }
 }

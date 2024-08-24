@@ -36,6 +36,7 @@ public class WatermarkImage implements Runnable {
     @Parameters(description = "Watermark image file", arity = "1")
     private File image;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
     public void run() {
         validate();

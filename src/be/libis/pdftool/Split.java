@@ -33,6 +33,7 @@ public class Split implements Runnable {
             arity = "0..1", defaultValue = "0", fallbackValue = "0")
     private Integer page;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
     public void run() {
         validate();

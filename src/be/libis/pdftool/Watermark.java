@@ -5,7 +5,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Spec;
 
 @Command(name = "watermark", description = "Create a watermarked copy of a PDF.",
-        subcommands = {WatermarkHeader.class, WatermarkImage.class, WatermarkText.class}
+        subcommands = {WatermarkBanner.class, WatermarkImage.class, WatermarkText.class}
 )
 public class Watermark implements Runnable {
     @Spec

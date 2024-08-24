@@ -42,6 +42,7 @@ public class Metadata implements Runnable {
     @Option(order = 7, names = {"-c", "--creator"}, description = "PDF Metadata creator value")
     private String creator;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
     public void run() {
         validate();

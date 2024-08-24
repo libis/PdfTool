@@ -65,6 +65,7 @@ public class Protect implements Runnable {
             description = "Allow the user to fill in forms, manage pages and bookmarks and edit the content (implies --fill-in and --manage)")
     private Boolean edit;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @Override
     public void run() {
         validate();

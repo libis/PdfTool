@@ -42,7 +42,7 @@ Create a watermarked copy of a PDF.
   -h, --help      Show this help message and exit.
   -V, --version   Print version information and exit.
 Commands:
-  header  Create a copy of a PDF file with a watermark in the page header
+  banner  Create a copy of a PDF file with a vertical text banner attached to the right of each page
   image   Create a copy of a PDF file with an image watermark
   text    Create a copy of a PDF file with a text watermark
 ```
@@ -82,8 +82,43 @@ to install the JDK is recommended. Install the JDK with this command:
 ```shell
 $ sdk install java 21.0.0.2.r11-grl
 ```
+But any Java SDK version 11, should work just fine. You may have to reconfigure your IDE to user that SDK.
+
+## Testing
+
+A Makefile is supplied that will test most of the options. It takes a pdf and performs a number of operations on it.
+You can inspect manually and visually if the output is what is expected.
+
+It is not possible to automate the tests as each PDF file will be slightly different due to the timestamping in the PDF.
+We can therefor not provide master files to compare the results against as they will always be binary different even if
+the operations are performed well.
+
+The Makefile expects a payara.pdf file to be present. You can use your own file by overriding the internal file name:
+
+```shell
+$ PDF_NAME=myfile make -e
+```
+```
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar split -i myfile.pdf -o myfile-page.pdf
+myfile-page-01.pdf
+myfile-page-02.pdf
+myfile-page-03.pdf
+myfile-page-04.pdf
+myfile-page-05.pdf
+myfile-page-06.pdf
+myfile-page-07.pdf
+myfile-page-08.pdf
+myfile-page-09.pdf
+myfile-page-10.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar merge -o myfile-merged.pdf myfile-page-*.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar metadata  -i myfile.pdf -o myfile-metadata.pdf -a author -c creator -k keywords -s subject -t title
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar protect --open-password=open --edit-password=edit -i myfile.pdf -o myfile-protected.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar select -r o -r "\!3-5" -r 10 -i myfile.pdf -o myfile-selected.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark banner -i myfile.pdf -o myfile-wm-header.pdf "LIBIS KU Leuven" --text-red 0x54 --text-green 0xbc --text-blue 0xeb --background-red 0x00 --background-green 0x40 --background-blue 0x7A
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark text -i myfile.pdf -o myfile-wm-text.pdf --opacity 0.5 --padding 0.8 --gap 50 --rotation -30 "LIBIS KU Leuven"
+```
 
 ## License
 
 The software and source code is provided under the 
-[Affero General Public License (AGPL)](http://www.gnu.org/licenses/agpl-3.0.html). 
+[Affero General Public License (AGPL)](http://www.gnu.org/licenses/agpl-3.0.html) just like the iText5 library. 
