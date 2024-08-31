@@ -28,11 +28,12 @@ public class Select implements Runnable {
     @Option(order = 2, names = {"-o", "--output"}, description = "Output PDF file", required = true)
     private File targetFile;
 
-    @Option(order = 3, names = {"-r", "--range"}, required = true,
+    @Option(order = 3, names = {"-r", "--range"}, required = true, split = ",",
             description = "A range of pages, specified as [!][o][odd][e][even]start-end\n" +
             "The '!' modifier removes the range from what is already selected. " +
             "The range changes are incremental, that is, numbers are added or deleted as the range appears. " +
-            "The start or the end, but not both, can be omitted, defaulting to the first and last page respectively.",
+            "The start or the end, but not both, can be omitted, defaulting to the first and last page respectively. " +
+            "Multiple entries may be supplied as separate options or combined with ','.",
             arity = "1..*")
     private List<String> range;
 

@@ -63,6 +63,9 @@ public class WatermarkBanner implements Runnable {
     @Option(order = 10, names = {"--text-blue"}, description = "Background color, blue component [${DEFAULT-VALUE}]", defaultValue = "0xFF")
     private Integer txt_b;
 
+    @Option(order = 11, names = {"--add-filename"}, description = "Add filename to the banner text [${DEFAULT-VALUE}]", defaultValue = "false")
+    private Boolean add_filename;
+
     @Parameters(description = "Watermark text")
     private String text;
 
@@ -109,6 +112,13 @@ public class WatermarkBanner implements Runnable {
 
         PdfReader pdfReader = new PdfReader(new FileInputStream(source));
         PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream(target));
+
+        if (add_filename) {
+            String name = source.getName();
+            int dot = name.lastIndexOf('.');
+            String basename = (dot == -1) ? name : name.substring(0, dot);
+            text = text.concat(basename);
+        }
 
         BaseFont baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
         Size size = new Size(Collections.singletonList(text), 0, 0, baseFont, fontSize, 0); // this is the original (unscaled) text size; if the banner is too short the text will be scaled

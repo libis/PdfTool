@@ -75,8 +75,7 @@ Note that the PdfTool jar file requires two other jars to be on the classpath:
 This application is build by using [IntelliJ Idea](https://www.jetbrains.com/idea/)
 Community version. The project files for the IDE are included in the repository.
 
-We used the [GraalVM](https://www.graalvm.org/) JDK, version 21.0.0.2 
-based on Java 11. The use of [sdkman](https://sdkman.io/)
+We used the [GraalVM](https://www.graalvm.org/) JDK, version 21.0.0.2 based on Java 11. Most Java 11 based SDKs are The use of [sdkman](https://sdkman.io/) or [asdf](https://asdf-vm.com/)
 to install the JDK is recommended. Install the JDK with this command:
 
 ```shell
@@ -93,29 +92,33 @@ It is not possible to automate the tests as each PDF file will be slightly diffe
 We can therefor not provide master files to compare the results against as they will always be binary different even if
 the operations are performed well.
 
-The Makefile expects a payara.pdf file to be present. You can use your own file by overriding the internal file name:
+The Makefile expects a myfile.pdf and a logo.png file to be present. You can use your own files by overriding some
+variables:
 
 ```shell
-$ PDF_NAME=myfile make -e
+$ PDF_NAME=otherfile IMG_FILE=mylogo.jpg make -e
 ```
 ```
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar split -i myfile.pdf -o myfile-page.pdf
-myfile-page-01.pdf
-myfile-page-02.pdf
-myfile-page-03.pdf
-myfile-page-04.pdf
-myfile-page-05.pdf
-myfile-page-06.pdf
-myfile-page-07.pdf
-myfile-page-08.pdf
-myfile-page-09.pdf
-myfile-page-10.pdf
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar merge -o myfile-merged.pdf myfile-page-*.pdf
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar metadata  -i myfile.pdf -o myfile-metadata.pdf -a author -c creator -k keywords -s subject -t title
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar protect --open-password=open --edit-password=edit -i myfile.pdf -o myfile-protected.pdf
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar select -r o -r "\!3-5" -r 10 -i myfile.pdf -o myfile-selected.pdf
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark banner -i myfile.pdf -o myfile-wm-header.pdf "LIBIS KU Leuven" --text-red 0x54 --text-green 0xbc --text-blue 0xeb --background-red 0x00 --background-green 0x40 --background-blue 0x7A
-java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark text -i myfile.pdf -o myfile-wm-text.pdf --opacity 0.5 --padding 0.8 --gap 50 --rotation -30 "LIBIS KU Leuven"
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar split -i otherfile.pdf -o otherfile-page.pdf
+otherfile-page-01.pdf
+otherfile-page-02.pdf
+otherfile-page-03.pdf
+otherfile-page-04.pdf
+otherfile-page-05.pdf
+otherfile-page-06.pdf
+otherfile-page-07.pdf
+otherfile-page-08.pdf
+otherfile-page-09.pdf
+otherfile-page-10.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar merge -o otherfile-merged.pdf otherfile-page-*.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar metadata  -i otherfile.pdf -o otherfile-metadata.pdf -a author -c creator -k keywords -s subject -t title
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar protect --open-password=open --edit-password=edit -i otherfile.pdf -o otherfile-protected.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar select -r o -r "\!3-5" -r 10 -i otherfile.pdf -o otherfile-selected1.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar select -r o -r "\!3-5,10" -i otherfile.pdf -o otherfile-selected2.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar select -r "o,\!3-5,10" -i otherfile.pdf -o otherfile-selected3.pdf
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark banner -i otherfile.pdf -o otherfile-wm-banner.pdf "LIBIS KU Leuven: " --text-red 0x54 --text-green 0xbc --text-blue 0xeb --background-red 0x00 --background-green 0x40 --background-blue 0x7A --add-filename
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark text -i otherfile.pdf -o otherfile-wm-text.pdf --padding 0.8 --gap 50 --rotation -30 "LIBIS KU Leuven"
+java -jar out/artifacts/PdfTool_jar/PdfTool.jar watermark image -i otherfile.pdf -o otherfile-wm-image.pdf --opacity 0.8 mylogo.jpg
 ```
 
 ## License
