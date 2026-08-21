@@ -134,6 +134,26 @@ public class WatermarkBanner implements Runnable {
             PdfArray bleedbox = pageDict.getAsArray(PdfName.BLEEDBOX);
             PdfArray artbox = pageDict.getAsArray(PdfName.ARTBOX);
             PdfArray mediabox = pageDict.getAsArray(PdfName.MEDIABOX);
+            // force a mediabox at page level to avoid a shared mediabox being updated over and over again:
+            pageDict.put(PdfName.MEDIABOX, new PdfArray(mediabox));
+            mediabox = pageDict.getAsArray(PdfName.MEDIABOX); //use the page level media box
+            // similarly, for any other existing boxes:
+            if (cropbox != null) {
+            	pageDict.put(PdfName.CROPBOX, new PdfArray(cropbox));
+            	cropbox = pageDict.getAsArray(PdfName.CROPBOX); //use the page level crop box
+            }
+            if (trimbox != null) {
+            	pageDict.put(PdfName.TRIMBOX, new PdfArray(trimbox));
+            	trimbox = pageDict.getAsArray(PdfName.TRIMBOX); //use the page level trim box
+            }
+            if (bleedbox != null) {
+            	pageDict.put(PdfName.BLEEDBOX, new PdfArray(bleedbox));
+            	bleedbox = pageDict.getAsArray(PdfName.BLEEDBOX); //use the page level bleed box
+            }
+            if (artbox != null) {
+            	pageDict.put(PdfName.ARTBOX, new PdfArray(artbox));
+            	artbox = pageDict.getAsArray(PdfName.ARTBOX); //use the page level art box
+            }
             if (rotation % 90 == 0 && rotation >= 0 && rotation <= 270 && mediabox != null) { // should be true for any valid pdf
                 float llx = mediabox.getAsNumber(0).floatValue(); // ll = lower left
                 float lly = mediabox.getAsNumber(1).floatValue();
